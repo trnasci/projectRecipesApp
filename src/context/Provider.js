@@ -41,7 +41,7 @@ function Provider({ children }) {
   };
 
   const handleClick = () => {
-    localStorage.setItem('user', { email });
+    localStorage.setItem('user', JSON.stringify({ email }));
   };
 
   const contextState = useMemo(() => ({
