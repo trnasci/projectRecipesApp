@@ -1,7 +1,14 @@
-import React from 'react';
-// import Context from '../context/Context';
+import React, { useContext } from 'react';
+import Context from '../context/Context';
 
 function Login() {
+  const {
+    email,
+    password,
+    disabled,
+    handleChangeEmail,
+    handleChangePassword,
+  } = useContext(Context);
   return (
     <form>
       <label htmlFor="email">
@@ -9,6 +16,9 @@ function Login() {
         <input
           data-testid="email-input"
           type="email"
+          name="email"
+          value={ email }
+          onChange={ handleChangeEmail }
         />
       </label>
       <label htmlFor="password">
@@ -16,16 +26,19 @@ function Login() {
         <input
           data-testid="password-input"
           type="password"
+          name="password"
+          value={ password }
+          onChange={ handleChangePassword }
         />
       </label>
       <button
         data-testid="login-submit-btn"
         type="button"
+        disabled={ disabled }
       >
         Enter
       </button>
     </form>
   );
 }
-
 export default Login;
