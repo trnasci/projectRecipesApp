@@ -1,11 +1,13 @@
 import PropTypes from 'prop-types';
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useCallback } from 'react';
+import { useHistory } from 'react-router-dom';
 import Context from './Context';
 
 function Provider({ children }) {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [disabled, setDisabled] = useState(true);
+  const history = useHistory();
   // useEffect(() => {
   //   const requestAPI = async () => {
   //     const response = await fetch('https://swapi.dev/api/planets');
@@ -17,7 +19,7 @@ function Provider({ children }) {
   // }, []);
   // const contextBase = { data };
 
-  const handleDisabled = () => {
+  const handleDisabled = useCallback(() => {
     const validationEmail = /\S+@\S+\.\S+/;
     const emailInput = validationEmail.test(email);
     const CHARACTER_LIMIT = 6;
@@ -26,23 +28,24 @@ function Provider({ children }) {
     if (totalValidation) {
       setDisabled(false);
     }
-  };
+  }, [email, password.length]);
 
-  const handleChangeEmail = ({ target }) => {
+  const handleChangeEmail = useCallback(({ target }) => {
     const { value } = target;
     setEmail(value);
     handleDisabled();
-  };
+  }, [handleDisabled]);
 
-  const handleChangePassword = ({ target }) => {
+  const handleChangePassword = useCallback(({ target }) => {
     const { value } = target;
     setPassword(value);
     handleDisabled();
-  };
+  }, [handleDisabled]);
 
-  const handleClick = () => {
+  const handleClick = useCallback(() => {
     localStorage.setItem('user', JSON.stringify({ email }));
-  };
+    history.push('/meals');
+  }, [email, history]);
 
   const contextState = useMemo(() => ({
     email,
@@ -52,7 +55,13 @@ function Provider({ children }) {
     handleChangePassword,
     handleDisabled,
     handleClick,
-  }), [email, disabled, password]);
+  }), [email,
+    password,
+    disabled,
+    handleChangeEmail,
+    handleChangePassword,
+    handleDisabled,
+    handleClick]);
 
   return (
     <Context.Provider value={ contextState }>
