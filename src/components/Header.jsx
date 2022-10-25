@@ -1,5 +1,7 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import profileIcon from '../images/profileIcon.svg';
+import searchIcon from '../images/searchIcon.svg';
 
 function Header() {
   const location = useLocation();
@@ -31,7 +33,7 @@ function Header() {
       <Link to="/profile">
         <img
           alt="profile icon"
-          src="src/images/profileIcon.svg"
+          src={ profileIcon }
           data-testid="profile-top-btn"
         />
       </Link>
@@ -39,7 +41,7 @@ function Header() {
         haveSearchIcon && (
           <img
             alt="search icon"
-            src="/src/images/searchIcon.svg"
+            src={ searchIcon }
             data-testid="search-top-btn"
           />
         )
