@@ -40,5 +40,9 @@ describe('Testando tela de Login', () => {
     userEvent.type(inputEmail, 'valeria-menezes');
     userEvent.type(inputPassword, '123');
     expect(submitButton).toBeDisabled();
+    
+    userEvent.type(inputEmail, 'valeria@email');
+    userEvent.type(inputPassword, '1234567');
+    userEvent.click(submitButton);
   });
 });
