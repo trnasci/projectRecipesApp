@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 
 function Header() {
+  const [searchInput, setSearchInput] = useState(false);
   const location = useLocation();
   const { pathname } = location;
 
@@ -28,6 +29,9 @@ function Header() {
     title = fristChar + str2;
   }
 
+  /*  const handleSearch({ target }) => {
+
+  } */
   return (
     <div>
       <Link to="/profile">
@@ -39,10 +43,24 @@ function Header() {
       </Link>
       {
         haveSearchIcon && (
-          <img
-            alt="search icon"
-            src={ searchIcon }
-            data-testid="search-top-btn"
+          <button
+            type="button"
+            onClick={ () => { setSearchInput(!searchInput); } }
+          >
+            <img
+              alt="search icon"
+              src={ searchIcon }
+              data-testid="search-top-btn"
+            />
+          </button>
+        )
+      }
+      {
+        searchInput && (
+          <input
+            data-testid="search-input"
+            type="text"
+            name=""
           />
         )
       }
