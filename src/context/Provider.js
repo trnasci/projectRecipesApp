@@ -40,6 +40,10 @@ function Provider({ children }) {
     handleDisabled();
   };
 
+  const handleClick = () => {
+    localStorage.setItem('user', JSON.stringify({ email }));
+  };
+
   const contextState = useMemo(() => ({
     email,
     password,
@@ -47,6 +51,7 @@ function Provider({ children }) {
     handleChangeEmail,
     handleChangePassword,
     handleDisabled,
+    handleClick,
   }), [email, disabled, password]);
 
   return (

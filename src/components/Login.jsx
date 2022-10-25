@@ -8,6 +8,7 @@ function Login() {
     disabled,
     handleChangeEmail,
     handleChangePassword,
+    handleClick,
   } = useContext(Context);
   return (
     <form>
@@ -35,6 +36,7 @@ function Login() {
         data-testid="login-submit-btn"
         type="button"
         disabled={ disabled }
+        onClick={ handleClick }
       >
         Enter
       </button>
