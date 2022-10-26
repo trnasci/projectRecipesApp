@@ -18,16 +18,6 @@ function Provider({ children }) {
   const location = useLocation();
   const { pathname } = location;
 
-  /* const listOneFood = useCallback(() => {
-    if (listAPI.length === 1) {
-      if (pathname === '/drinks') {
-        history.push(`/drinks/${listAPI[0].idDrink}`);
-      } else {
-        history.push(`/meals/${listAPI[0].idMeal}`);
-      }
-    }
-  }, [history, listAPI, pathname]); */
-
   useEffect(() => {
     if (listDrinks.length === 1) {
       history.push(`/drinks/${listDrinks[0].idDrink}`);
@@ -96,8 +86,12 @@ function Provider({ children }) {
     const URL = mealNDrinks();
     const request = await fetch(URL);
     const maxRender = 12;
+    const alert = 'Sorry, we haven\'t found any recipes for these filters.';
     if (pathname === '/meals') {
       const { meals } = await request.json();
+      if (!meals) {
+        return global.alert(alert);
+      }
       if (meals.length > maxRender) {
         setListMeals(meals.slice(0, maxRender));
       } else {
@@ -105,6 +99,9 @@ function Provider({ children }) {
       }
     } else {
       const { drinks } = await request.json();
+      if (!drinks) {
+        return global.alert(alert);
+      }
       if (drinks.length > maxRender) {
         setListDrinks(drinks.slice(0, maxRender));
       } else {
@@ -118,7 +115,6 @@ function Provider({ children }) {
       return global.alert('Your search must have only 1 (one) character');
     }
     await fetchAPI();
-    // listOneFood();
   }, [fetchAPI, radioInput, searchInput.length]);
 
   const contextState = useMemo(() => ({
