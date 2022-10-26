@@ -1,5 +1,5 @@
 import React, { useState, useContext, useEffect } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation, useHistory } from 'react-router-dom';
 import profileIcon from '../images/profileIcon.svg';
 import searchIcon from '../images/searchIcon.svg';
 import SearchBar from './SearchBar';
@@ -10,10 +10,13 @@ function Header() {
   const location = useLocation();
   const { pathname } = location;
   const { title, setTitle, haveSearchIcon, setHaveSearchIcon } = useContext(Context);
+  const history = useHistory();
 
   useEffect(() => {
     if (pathname === '/drinks' || pathname === '/meals') {
       setHaveSearchIcon(true);
+    } else {
+      setHaveSearchIcon(false);
     }
 
     if (pathname === '/done-recipes' || pathname === '/favorite-recipes') {
@@ -33,18 +36,21 @@ function Header() {
     }
   }, [pathname, setHaveSearchIcon, setTitle]);
 
-  /*  const handleSearch({ target }) => {
+  const handleProfileClick = () => {
+    history.push('/profile');
+  };
 
-  } */
   return (
     <div>
-      <Link to="/profile">
+      {/* <Link to="/profile"> */}
+      <button type="button" onClick={ handleProfileClick }>
         <img
           alt="profile icon"
           src={ profileIcon }
           data-testid="profile-top-btn"
         />
-      </Link>
+      </button>
+      {/* </Link> */}
       {
         haveSearchIcon && (
           <button
