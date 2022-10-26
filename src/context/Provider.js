@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState, useMemo, useCallback } from 'react';
+import { useState, useMemo, useCallback, useEffect } from 'react';
 import { useHistory, useLocation } from 'react-router-dom';
 import Context from './Context';
 
@@ -16,6 +16,26 @@ function Provider({ children }) {
   const history = useHistory();
   const location = useLocation();
   const { pathname } = location;
+
+  /* const listOneFood = useCallback(() => {
+    if (listAPI.length === 1) {
+      if (pathname === '/drinks') {
+        history.push(`/drinks/${listAPI[0].idDrink}`);
+      } else {
+        history.push(`/meals/${listAPI[0].idMeal}`);
+      }
+    }
+  }, [history, listAPI, pathname]); */
+
+  useEffect(() => {
+    if (listAPI.length === 1) {
+      if (title === 'Drinks') {
+        history.push(`/drinks/${listAPI[0].idDrink}`);
+      } else {
+        history.push(`/meals/${listAPI[0].idMeal}`);
+      }
+    }
+  }, [history, listAPI, pathname, title]);
 
   const handleDisabled = useCallback(() => {
     const validationEmail = /\S+@\S+\.\S+/;
@@ -46,8 +66,6 @@ function Provider({ children }) {
   }, [email, history]);
 
   const mealNDrinks = useCallback(() => {
-    console.log(pathname, radioInput);
-    const endPoint = '';
     if (pathname === '/meals') {
       switch (radioInput) {
       case 'Ingredient':
@@ -71,16 +89,12 @@ function Provider({ children }) {
       default:
         break;
       }
-      console.log(endPoint);
-      // return endPoint;
     }
   }, [pathname, radioInput, searchInput]);
 
   const fetchAPI = useCallback(async () => {
     const URL = mealNDrinks();
     const request = await fetch(URL);
-    console.log(request);
-    // const verifica = Object.keys(response)[0];
 
     if (pathname === '/meals') {
       const { meals } = await request.json();
@@ -96,8 +110,8 @@ function Provider({ children }) {
       return global.alert('Your search must have only 1 (one) character');
     }
     await fetchAPI();
-    console.log('listAPI', listAPI);
-  }, [fetchAPI, listAPI, radioInput, searchInput.length]);
+    // listOneFood();
+  }, [fetchAPI, radioInput, searchInput.length]);
 
   const contextState = useMemo(() => ({
     email,
