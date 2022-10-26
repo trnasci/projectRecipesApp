@@ -1,13 +1,13 @@
 import React from 'react';
 import Footer from './Footer';
 import Header from './Header';
-import Card from './Card';
+import Recipes from './Recipes';
 
 function Drinks() {
   return (
     <div>
       <Header />
-      <Card />
+      <Recipes />
       <Footer />
     </div>
   );

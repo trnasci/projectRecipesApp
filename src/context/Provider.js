@@ -75,7 +75,7 @@ function Provider({ children }) {
       case FIRST_LETTER:
         return `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
       default:
-        break;
+        return 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
       }
     }
     if (pathname === '/drinks') {
@@ -87,7 +87,7 @@ function Provider({ children }) {
       case FIRST_LETTER:
         return `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchInput}`;
       default:
-        break;
+        return 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
       }
     }
   }, [pathname, radioInput, searchInput]);
@@ -139,6 +139,7 @@ function Provider({ children }) {
     handleClickAPI,
     listDrinks,
     listMeals,
+    fetchAPI,
   }), [
     email,
     password,
@@ -153,6 +154,7 @@ function Provider({ children }) {
     handleClickAPI,
     listDrinks,
     listMeals,
+    fetchAPI,
   ]);
 
   return (
