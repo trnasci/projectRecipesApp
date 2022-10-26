@@ -1,28 +1,17 @@
 import React from 'react';
-import { useHistory } from 'react-router-dom';
+// import { useHistory } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import Footer from './Footer';
 import Header from './Header';
 
 function Profile() {
-  const history = useHistory();
-
-  const handleEmail = () => {
-    const getEmail = JSON.parse(localStorage.getItem('user'));
-    const { email } = getEmail;
-    return email;
-  };
-
-  const handleClickDoneRecipes = () => {
-    history.push('/done-recipes');
-  };
-
-  const handleClickFavoriteRecipes = () => {
-    history.push('/favorite-recipes');
-  };
+  const getEmail = JSON.parse(localStorage.getItem('user'));
 
   const handleClickLogout = () => {
-    localStorage.clear();
-    history.push('/');
+    localStorage.removeItem('user');
+    localStorage.removeItem('doneRecipes');
+    localStorage.removeItem('favoriteRecipes');
+    localStorage.removeItem('inProgressRecipes');
   };
 
   return (
@@ -31,29 +20,32 @@ function Profile() {
       <h3
         data-testid="profile-email"
       >
-        {`Email: ${handleEmail()}`}
+        {
+          getEmail ? getEmail.email : 'Email não encontado'
+        }
       </h3>
-      <button
-        data-testid="profile-done-btn"
-        type="button"
-        onClick={ handleClickDoneRecipes }
-      >
-        Done Recipes
-      </button>
-      <button
-        data-testid="profile-favorite-btn"
-        type="button"
-        onClick={ handleClickFavoriteRecipes }
-      >
-        Favorite Recipes
-      </button>
-      <button
-        data-testid="profile-logout-btn"
-        type="button"
-        onClick={ handleClickLogout }
-      >
-        Logout
-      </button>
+      <Link to="/done-recipes">
+        <button type="button" data-testid="profile-done-btn">
+          Done Recipes
+        </button>
+      </Link>
+
+      <Link to="/favorite-recipes">
+        <button type="button" data-testid="profile-favorite-btn">
+          Favorite Recipes
+        </button>
+      </Link>
+
+      <Link to="/">
+        <button
+          data-testid="profile-logout-btn"
+          type="button"
+          onClick={ handleClickLogout }
+        >
+          Logout
+        </button>
+      </Link>
+
       <Footer />
     </div>
   );
