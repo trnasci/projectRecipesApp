@@ -1,12 +1,32 @@
-import React from 'react';
+import React, { useContext } from 'react';
+import Context from '../context/Context';
 
 function SearchBar() {
+  const {
+    setRadioInput,
+    setSearchInput,
+    searchInput,
+    handleClickAPI,
+  } = useContext(Context);
+
+  const handleRadio = ({ target }) => {
+    const { value } = target;
+    setRadioInput(value);
+  };
+
+  const handleChange = ({ target }) => {
+    const { value } = target;
+    setSearchInput(value);
+  };
+
   return (
     <div>
       <input
         data-testid="search-input"
         type="text"
-        name=""
+        name="search-input"
+        value={ searchInput }
+        onChange={ handleChange }
       />
       <div>
         <label htmlFor="ingredient">
@@ -16,6 +36,7 @@ function SearchBar() {
             name="search-filter"
             value="Ingredient"
             data-testid="ingredient-search-radio"
+            onChange={ handleRadio }
           />
           Ingredient
         </label>
@@ -26,6 +47,7 @@ function SearchBar() {
             name="search-filter"
             value="Name"
             data-testid="name-search-radio"
+            onChange={ handleRadio }
           />
           Name
         </label>
@@ -36,6 +58,7 @@ function SearchBar() {
             name="search-filter"
             value="First letter"
             data-testid="first-letter-search-radio"
+            onChange={ handleRadio }
           />
           First letter
         </label>
@@ -43,6 +66,7 @@ function SearchBar() {
       <button
         type="button"
         data-testid="exec-search-btn"
+        onClick={ handleClickAPI }
       >
         Pesquisar
       </button>

@@ -4,20 +4,16 @@ import { useHistory } from 'react-router-dom';
 import Context from './Context';
 
 function Provider({ children }) {
+  const FIRST_LETTER = 'First letter';
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [radioInput, setRadioInput] = useState('');
+  const [title, setTitle] = useState('');
+  const [haveSearchIcon, setHaveSearchIcon] = useState(false);
   const [disabled, setDisabled] = useState(true);
+  const [searchInput, setSearchInput] = useState('');
+  const [listAPI, setListAPI] = useState([]);
   const history = useHistory();
-  // useEffect(() => {
-  //   const requestAPI = async () => {
-  //     const response = await fetch('https://swapi.dev/api/planets');
-  //     const { results } = await response.json();
-  //     setData(results);
-  //     // results: [{tatoonine}, {alderan}...] ---> array object;
-  //   };
-  //   requestAPI();
-  // }, []);
-  // const contextBase = { data };
 
   const handleDisabled = useCallback(() => {
     const validationEmail = /\S+@\S+\.\S+/;
@@ -47,6 +43,61 @@ function Provider({ children }) {
     history.push('/meals');
   }, [email, history]);
 
+  const mealNDrinks = useCallback(() => {
+    let endPoint = '';
+    if (title === 'Meals') {
+      switch (radioInput) {
+      case 'Ingredient':
+        endPoint = `www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
+        break;
+      case 'Name':
+        endPoint = `www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
+        break;
+      case FIRST_LETTER:
+        endPoint = `www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
+        break;
+      default:
+        break;
+      }
+    } else {
+      switch (radioInput) {
+      case 'Ingredient':
+        endPoint = `www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchInput}`;
+        break;
+      case 'Name':
+        endPoint = `www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`;
+        break;
+      case FIRST_LETTER:
+        endPoint = `www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchInput}`;
+        break;
+      default:
+        break;
+      }
+      return endPoint;
+    }
+  }, [radioInput, searchInput, title]);
+
+  const fetchAPI = useCallback(async () => {
+    const URL = mealNDrinks();
+    const request = await fetch(URL);
+
+    if (title === 'Meals') {
+      const { meals } = await request.json();
+      setListAPI(meals);
+    } else {
+      const { drinks } = await request.json();
+      setListAPI(drinks);
+    }
+  }, [mealNDrinks, title]);
+
+  const handleClickAPI = useCallback(async () => {
+    if (radioInput === FIRST_LETTER && searchInput.length > 1) {
+      return global.alert('Your search must have only 1 (one) character');
+    }
+    await fetchAPI();
+    console.log('listAPI', listAPI);
+  }, [fetchAPI, listAPI, radioInput, searchInput.length]);
+
   const contextState = useMemo(() => ({
     email,
     password,
@@ -55,13 +106,32 @@ function Provider({ children }) {
     handleChangePassword,
     handleDisabled,
     handleClick,
+    title,
+    setTitle,
+    haveSearchIcon,
+    setHaveSearchIcon,
+    setRadioInput,
+    searchInput,
+    setSearchInput,
+    handleClickAPI,
+    listAPI,
   }), [email,
     password,
     disabled,
     handleChangeEmail,
     handleChangePassword,
     handleDisabled,
-    handleClick]);
+    handleClick,
+    handleClickAPI,
+    title,
+    setTitle,
+    haveSearchIcon,
+    setHaveSearchIcon,
+    setRadioInput,
+    searchInput,
+    setSearchInput,
+    listAPI,
+  ]);
 
   return (
     <Context.Provider value={ contextState }>
@@ -73,4 +143,5 @@ function Provider({ children }) {
 Provider.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
 export default Provider;
