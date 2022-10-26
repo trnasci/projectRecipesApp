@@ -22,12 +22,12 @@ describe('Testa componente Recipes', () => {
     const breakfastButton = await screen.findByTestId('Breakfast-category-filter');
     const ChickenButton = await screen.findByTestId('Chicken-category-filter');
     const DessertButton = await screen.findByTestId('Dessert-category-filter');
-    const GoatButton = await screen.findByTestId('Goat-category-filter');
+    const goatButton = await screen.findByTestId('Goat-category-filter');
     expect(beefButton).toBeInTheDocument();
     expect(breakfastButton).toBeInTheDocument();
     expect(ChickenButton).toBeInTheDocument();
     expect(DessertButton).toBeInTheDocument();
-    expect(GoatButton).toBeInTheDocument();
+    expect(goatButton).toBeInTheDocument();
   });
 
   it('Testa se os botões de filtro existem na rota /drinks', async () => {
