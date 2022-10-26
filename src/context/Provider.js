@@ -1,6 +1,6 @@
 import PropTypes from 'prop-types';
 import { useState, useMemo, useCallback } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useLocation } from 'react-router-dom';
 import Context from './Context';
 
 function Provider({ children }) {
@@ -14,6 +14,8 @@ function Provider({ children }) {
   const [searchInput, setSearchInput] = useState('');
   const [listAPI, setListAPI] = useState([]);
   const history = useHistory();
+  const location = useLocation();
+  const { pathname } = location;
 
   const handleDisabled = useCallback(() => {
     const validationEmail = /\S+@\S+\.\S+/;
@@ -44,51 +46,50 @@ function Provider({ children }) {
   }, [email, history]);
 
   const mealNDrinks = useCallback(() => {
-    let endPoint = '';
-    if (title === 'Meals') {
+    console.log(pathname, radioInput);
+    const endPoint = '';
+    if (pathname === '/meals') {
       switch (radioInput) {
       case 'Ingredient':
-        endPoint = `www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
-        break;
+        return `https://www.themealdb.com/api/json/v1/1/filter.php?i=${searchInput}`;
       case 'Name':
-        endPoint = `www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
-        break;
+        return `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
       case FIRST_LETTER:
-        endPoint = `www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
-        break;
+        return `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
       default:
         break;
       }
-    } else {
-      switch (radioInput) {
-      case 'Ingredient':
-        endPoint = `www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchInput}`;
-        break;
-      case 'Name':
-        endPoint = `www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`;
-        break;
-      case FIRST_LETTER:
-        endPoint = `www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchInput}`;
-        break;
-      default:
-        break;
-      }
-      return endPoint;
     }
-  }, [radioInput, searchInput, title]);
+    if (pathname === '/drinks') {
+      switch (radioInput) {
+      case 'Ingredient':
+        return `https://www.thecocktaildb.com/api/json/v1/1/filter.php?i=${searchInput}`;
+      case 'Name':
+        return `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`;
+      case FIRST_LETTER:
+        return `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchInput}`;
+      default:
+        break;
+      }
+      console.log(endPoint);
+      // return endPoint;
+    }
+  }, [pathname, radioInput, searchInput]);
 
   const fetchAPI = useCallback(async () => {
     const URL = mealNDrinks();
     const request = await fetch(URL);
+    console.log(request);
+    // const verifica = Object.keys(response)[0];
 
-    if (title === 'Meals') {
+    if (pathname === '/meals') {
       const { meals } = await request.json();
       setListAPI(meals);
     } else {
       const { drinks } = await request.json();
       setListAPI(drinks);
     }
-  }, [mealNDrinks, title]);
+  }, [mealNDrinks, pathname]);
 
   const handleClickAPI = useCallback(async () => {
     if (radioInput === FIRST_LETTER && searchInput.length > 1) {
