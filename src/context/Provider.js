@@ -12,7 +12,8 @@ function Provider({ children }) {
   const [haveSearchIcon, setHaveSearchIcon] = useState(false);
   const [disabled, setDisabled] = useState(true);
   const [searchInput, setSearchInput] = useState('');
-  const [listAPI, setListAPI] = useState([]);
+  const [listMeals, setListMeals] = useState([]);
+  const [listDrinks, setListDrinks] = useState([]);
   const history = useHistory();
   const location = useLocation();
   const { pathname } = location;
@@ -28,14 +29,13 @@ function Provider({ children }) {
   }, [history, listAPI, pathname]); */
 
   useEffect(() => {
-    if (listAPI.length === 1) {
-      if (title === 'Drinks') {
-        history.push(`/drinks/${listAPI[0].idDrink}`);
-      } else {
-        history.push(`/meals/${listAPI[0].idMeal}`);
-      }
+    if (listDrinks.length === 1) {
+      history.push(`/drinks/${listDrinks[0].idDrink}`);
     }
-  }, [history, listAPI, pathname, title]);
+    if (listMeals.length === 1) {
+      history.push(`/meals/${listMeals[0].idMeal}`);
+    }
+  }, [history, listDrinks, listMeals, pathname, title]);
 
   const handleDisabled = useCallback(() => {
     const validationEmail = /\S+@\S+\.\S+/;
@@ -95,13 +95,21 @@ function Provider({ children }) {
   const fetchAPI = useCallback(async () => {
     const URL = mealNDrinks();
     const request = await fetch(URL);
-
+    const maxRender = 12;
     if (pathname === '/meals') {
       const { meals } = await request.json();
-      setListAPI(meals);
+      if (meals.length > maxRender) {
+        setListMeals(meals.slice(0, maxRender));
+      } else {
+        setListMeals(meals);
+      }
     } else {
       const { drinks } = await request.json();
-      setListAPI(drinks);
+      if (drinks.length > maxRender) {
+        setListDrinks(drinks.slice(0, maxRender));
+      } else {
+        setListDrinks(drinks);
+      }
     }
   }, [mealNDrinks, pathname]);
 
@@ -129,23 +137,22 @@ function Provider({ children }) {
     searchInput,
     setSearchInput,
     handleClickAPI,
-    listAPI,
-  }), [email,
+    listDrinks,
+    listMeals,
+  }), [
+    email,
     password,
     disabled,
     handleChangeEmail,
     handleChangePassword,
     handleDisabled,
     handleClick,
-    handleClickAPI,
     title,
-    setTitle,
     haveSearchIcon,
-    setHaveSearchIcon,
-    setRadioInput,
     searchInput,
-    setSearchInput,
-    listAPI,
+    handleClickAPI,
+    listDrinks,
+    listMeals,
   ]);
 
   return (
