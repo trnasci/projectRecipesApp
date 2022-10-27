@@ -5,7 +5,11 @@ import Card from './Card';
 
 function Recipes() {
   const [listCategory, setListCategory] = useState([]);
-  const { fetchAPI, setRadioInput, setSearchInput } = useContext(Context);
+  const {
+    setRadioInput,
+    setListMeals,
+    setListDrinks,
+  } = useContext(Context);
   const location = useLocation();
   const { pathname } = location;
   const fetchAPIFilterCategory = useCallback(async () => {
@@ -22,24 +26,54 @@ function Recipes() {
       const { drinks } = await request.json();
       setListCategory(drinks.slice(0, maxRender));
     }
-  }, [pathname, setListCategory]);
+  }, [pathname]);
+
+  const fetchAPIDefault = (useCallback(async () => {
+    if (pathname === '/meals') {
+      const URL = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+      const request = await fetch(URL);
+      const maxRender = 12;
+      const { meals } = await request.json();
+      setListMeals(meals.slice(0, maxRender));
+    } else {
+      const URL = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+      const request = await fetch(URL);
+      const maxRender = 12;
+      const { drinks } = await request.json();
+      setListDrinks(drinks.slice(0, maxRender));
+    }
+  }, [pathname, setListDrinks, setListMeals]));
+
+  const fetchAPICategory = async (name) => {
+    if (pathname === '/meals') {
+      const URL = `https://www.themealdb.com/api/json/v1/1/filter.php?c=${name}`;
+      const request = await fetch(URL);
+      const maxRender = 12;
+      const { meals } = await request.json();
+      setListMeals(meals.slice(0, maxRender));
+    } else {
+      const URL = `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${name}`;
+      const request = await fetch(URL);
+      const maxRender = 12;
+      const { drinks } = await request.json();
+      setListDrinks(drinks.slice(0, maxRender));
+    }
+  };
 
   useEffect(() => {
-    fetchAPI();
+    fetchAPIDefault();
     fetchAPIFilterCategory();
-  }, [fetchAPI, fetchAPIFilterCategory]);
+  }, [fetchAPIDefault, fetchAPIFilterCategory]);
 
   const handleCategory = ({ target }) => {
     const { name } = target;
-    setSearchInput(name);
     setRadioInput('Category');
+    fetchAPICategory(name);
   };
 
   const handleClearFilter = () => {
-    setSearchInput('');
-    setRadioInput('');
+    fetchAPIDefault();
   };
-  console.log(listCategory);
   return (
     <section>
       {listCategory.map((element, index) => (
