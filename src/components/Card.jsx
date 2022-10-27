@@ -1,4 +1,5 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import Context from '../context/Context';
 
 function Card() {
@@ -7,13 +8,24 @@ function Card() {
     listDrinks,
     title,
   } = useContext(Context);
+  const history = useHistory();
+
+  const handleCardClickMeal = (id) => {
+    history.push(`/meals/${id}`);
+  };
+
+  const handleCardClickDrink = (id) => {
+    history.push(`/drinks/${id}`);
+  };
   return (
     <section>
       { title === 'Meals'
         ? listMeals.map((element, index) => (
-          <div
+          <button
             key={ index }
             data-testid={ `${index}-recipe-card` }
+            type="button"
+            onClick={ () => handleCardClickMeal(element.idMeal) }
           >
             <img
               width="150"
@@ -26,11 +38,13 @@ function Card() {
             >
               {element.strMeal}
             </h2>
-          </div>
+          </button>
         )) : listDrinks.map((element, index) => (
-          <div
+          <button
             key={ index }
             data-testid={ `${index}-recipe-card` }
+            type="button"
+            onClick={ () => handleCardClickDrink(element.idDrink) }
           >
             <img
               width="150"
@@ -43,7 +57,7 @@ function Card() {
             >
               {element.strDrink}
             </h2>
-          </div>
+          </button>
         ))}
     </section>
   );
