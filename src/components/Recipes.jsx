@@ -7,7 +7,6 @@ function Recipes() {
   const [listCategory, setListCategory] = useState([]);
   const {
     setRadioInput,
-    setSearchInput,
     setListMeals,
     setListDrinks,
   } = useContext(Context);
