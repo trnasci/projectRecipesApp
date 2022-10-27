@@ -65,10 +65,8 @@ function Provider({ children }) {
         return `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
       case FIRST_LETTER:
         return `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
-      case 'Category':
-        return `https://www.themealdb.com/api/json/v1/1/filter.php?c=${searchInput}`;
       default:
-        return 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+        break;
       }
     }
     if (pathname === '/drinks') {
@@ -79,10 +77,8 @@ function Provider({ children }) {
         return `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`;
       case FIRST_LETTER:
         return `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchInput}`;
-      case 'Category':
-        return `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${searchInput}`;
       default:
-        return 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+        break;
       }
     }
   }, [pathname, radioInput, searchInput]);
@@ -143,6 +139,8 @@ function Provider({ children }) {
     detailsRecipe,
     setDetailsRecipe,
     fetchAPI,
+    setListMeals,
+    setListDrinks,
   }), [
     email,
     password,
