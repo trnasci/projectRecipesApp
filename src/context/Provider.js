@@ -29,13 +29,13 @@ function Provider({ children }) {
   }, [history, listAPI, pathname]); */
 
   useEffect(() => {
-    if (listDrinks.length === 1) {
+    if (listDrinks.length === 1 && radioInput !== 'Category') {
       history.push(`/drinks/${listDrinks[0].idDrink}`);
     }
-    if (listMeals.length === 1) {
+    if (listMeals.length === 1 && radioInput !== 'Category') {
       history.push(`/meals/${listMeals[0].idMeal}`);
     }
-  }, [history, listDrinks, listMeals, pathname, title]);
+  }, [history, listDrinks, listMeals, pathname, title, radioInput]);
 
   const handleDisabled = useCallback(() => {
     const validationEmail = /\S+@\S+\.\S+/;
@@ -74,6 +74,8 @@ function Provider({ children }) {
         return `https://www.themealdb.com/api/json/v1/1/search.php?s=${searchInput}`;
       case FIRST_LETTER:
         return `https://www.themealdb.com/api/json/v1/1/search.php?f=${searchInput}`;
+      case 'Category':
+        return `https://www.themealdb.com/api/json/v1/1/filter.php?c=${searchInput}`;
       default:
         return 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
       }
@@ -86,6 +88,8 @@ function Provider({ children }) {
         return `https://www.thecocktaildb.com/api/json/v1/1/search.php?s=${searchInput}`;
       case FIRST_LETTER:
         return `https://www.thecocktaildb.com/api/json/v1/1/search.php?f=${searchInput}`;
+      case 'Category':
+        return `https://www.thecocktaildb.com/api/json/v1/1/filter.php?c=${searchInput}`;
       default:
         return 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
       }
@@ -155,6 +159,7 @@ function Provider({ children }) {
     listDrinks,
     listMeals,
     fetchAPI,
+    setSearchInput,
   ]);
 
   return (
