@@ -14,6 +14,7 @@ function Provider({ children }) {
   const [searchInput, setSearchInput] = useState('');
   const [listMeals, setListMeals] = useState([]);
   const [listDrinks, setListDrinks] = useState([]);
+  const [detailsRecipe, setDetailsRecipe] = useState([]);
   const history = useHistory();
   const location = useLocation();
   const { pathname } = location;
@@ -139,6 +140,8 @@ function Provider({ children }) {
     handleClickAPI,
     listDrinks,
     listMeals,
+    detailsRecipe,
+    setDetailsRecipe,
   }), [
     email,
     password,
@@ -153,6 +156,8 @@ function Provider({ children }) {
     handleClickAPI,
     listDrinks,
     listMeals,
+    detailsRecipe,
+    setDetailsRecipe,
   ]);
 
   return (
