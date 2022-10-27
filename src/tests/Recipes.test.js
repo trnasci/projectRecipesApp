@@ -20,17 +20,17 @@ describe('Testa componente Recipes', () => {
     userEvent.click(searchButton);
     const beefButton = await screen.findByTestId('Beef-category-filter');
     const breakfastButton = await screen.findByTestId('Breakfast-category-filter');
-    const ChickenButton = await screen.findByTestId('Chicken-category-filter');
-    const DessertButton = await screen.findByTestId('Dessert-category-filter');
+    const chickenButton = await screen.findByTestId('Chicken-category-filter');
+    const dessertButton = await screen.findByTestId('Dessert-category-filter');
     const goatButton = await screen.findByTestId('Goat-category-filter');
     expect(beefButton).toBeInTheDocument();
     expect(breakfastButton).toBeInTheDocument();
-    expect(ChickenButton).toBeInTheDocument();
-    expect(DessertButton).toBeInTheDocument();
+    expect(chickenButton).toBeInTheDocument();
+    expect(dessertButton).toBeInTheDocument();
     expect(goatButton).toBeInTheDocument();
   });
 
-  it('Testa se os botões de filtro existem na rota /drinks', async () => {
+  it('Testa se os botões de filtro existem na rota /meals', async () => {
     renderWithRouter(
       <Provider>
         <App />
