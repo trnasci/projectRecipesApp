@@ -5,6 +5,7 @@ import Card from './Card';
 
 function Recipes() {
   const [listCategory, setListCategory] = useState([]);
+  const [categoryClicked, setListCategoryClicked] = useState('Category');
   const {
     setRadioInput,
     setListMeals,
@@ -68,12 +69,17 @@ function Recipes() {
   const handleCategory = ({ target }) => {
     const { name } = target;
     setRadioInput('Category');
+    if (categoryClicked === name) {
+      return fetchAPIDefault();
+    }
     fetchAPICategory(name);
+    setListCategoryClicked(name);
   };
 
   const handleClearFilter = () => {
     fetchAPIDefault();
   };
+  console.log(categoryClicked);
   return (
     <section>
       {listCategory.map((element, index) => (
