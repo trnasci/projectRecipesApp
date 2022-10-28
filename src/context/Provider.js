@@ -29,15 +29,18 @@ function Provider({ children }) {
       }
     }
   }, [history, listAPI, pathname]); */
+  const history = useHistory();
+  const location = useLocation();
+  const { pathname } = location;
 
   useEffect(() => {
-    if (listDrinks.length === 1) {
+    if (listDrinks.length === 1 && radioInput !== 'Category') {
       history.push(`/drinks/${listDrinks[0].idDrink}`);
     }
-    if (listMeals.length === 1) {
+    if (listMeals.length === 1 && radioInput !== 'Category') {
       history.push(`/meals/${listMeals[0].idMeal}`);
     }
-  }, [history, listDrinks, listMeals, pathname, title]);
+  }, [history, listDrinks, listMeals, pathname, title, radioInput]);
 
   const handleDisabled = useCallback(() => {
     const validationEmail = /\S+@\S+\.\S+/;
@@ -98,8 +101,12 @@ function Provider({ children }) {
     const URL = mealNDrinks();
     const request = await fetch(URL);
     const maxRender = 12;
+    const alert = 'Sorry, we haven\'t found any recipes for these filters.';
     if (pathname === '/meals') {
       const { meals } = await request.json();
+      if (!meals) {
+        return global.alert(alert);
+      }
       if (meals.length > maxRender) {
         setListMeals(meals.slice(0, maxRender));
       } else {
@@ -107,6 +114,9 @@ function Provider({ children }) {
       }
     } else {
       const { drinks } = await request.json();
+      if (!drinks) {
+        return global.alert(alert);
+      }
       if (drinks.length > maxRender) {
         setListDrinks(drinks.slice(0, maxRender));
       } else {
@@ -120,7 +130,6 @@ function Provider({ children }) {
       return global.alert('Your search must have only 1 (one) character');
     }
     await fetchAPI();
-    // listOneFood();
   }, [fetchAPI, radioInput, searchInput.length]);
 
   const contextState = useMemo(() => ({
@@ -147,6 +156,9 @@ function Provider({ children }) {
     setMeasure,
     ingredient,
     measure,
+    fetchAPI,
+    setListMeals,
+    setListDrinks,
   }), [
     email,
     password,
@@ -167,6 +179,8 @@ function Provider({ children }) {
     setMeasure,
     ingredient,
     measure,
+    fetchAPI,
+    setSearchInput,
   ]);
 
   return (
