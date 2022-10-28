@@ -17,6 +17,7 @@ function Provider({ children }) {
   const [detailsRecipe, setDetailsRecipe] = useState([]);
   const [ingredient, setIngredient] = useState([]);
   const [measure, setMeasure] = useState([]);
+  const [recomendations, setRecomendations] = useState([]);
   const history = useHistory();
   const location = useLocation();
   const { pathname } = location;
@@ -147,6 +148,8 @@ function Provider({ children }) {
     fetchAPI,
     setListMeals,
     setListDrinks,
+    recomendations,
+    setRecomendations,
   }), [
     email,
     password,
@@ -169,6 +172,8 @@ function Provider({ children }) {
     measure,
     fetchAPI,
     setSearchInput,
+    recomendations,
+    setRecomendations,
   ]);
 
   return (

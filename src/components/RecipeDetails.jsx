@@ -2,6 +2,7 @@ import React, { useEffect, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Context from '../context/Context';
+import Recomendations from './Recomendations';
 
 export default function RecipeDetails({ match: { params: { id } } }) {
   const history = useHistory();
@@ -12,6 +13,8 @@ export default function RecipeDetails({ match: { params: { id } } }) {
     setMeasure,
     ingredient,
     measure,
+    // recomendations,
+    setRecomendations,
   } = useContext(Context);
 
   const fetchAPI = async () => {
@@ -46,8 +49,25 @@ export default function RecipeDetails({ match: { params: { id } } }) {
     setMeasure(pequi);
   };
 
-  useEffect(() => { fetchAPI(); }, []);
+  const fetchRecomendations = async () => {
+    let endPoint = 'https://www.thecocktaildb.com/api/json/v1/1/search.php?s=';
+    if (history.location.pathname === `/drinks/${id}`) {
+      endPoint = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
+    }
 
+    const request = await fetch(endPoint);
+    const response = await request.json();
+    const products = history.location.pathname === `/meals/${id}`
+      ? response.drinks
+      : response.meals;
+    setRecomendations(products);
+  };
+
+  useEffect(() => {
+    fetchAPI();
+    fetchRecomendations();
+  }, []);
+  // console.log(detailsRecipe.strYoutube);
   return (
     <div>
       <div>
@@ -113,6 +133,7 @@ export default function RecipeDetails({ match: { params: { id } } }) {
             </iframe>
           )
         }
+        <Recomendations />
 
       </div>
     </div>

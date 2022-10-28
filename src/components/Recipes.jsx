@@ -79,7 +79,7 @@ function Recipes() {
   const handleClearFilter = () => {
     fetchAPIDefault();
   };
-  console.log(categoryClicked);
+  // console.log(categoryClicked);
   return (
     <section>
       {listCategory.map((element, index) => (

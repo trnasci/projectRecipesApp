@@ -80,6 +80,11 @@ function RecipeInProgress({ match }) {
       >
         { detailsRecipe.strInstructions }
       </h4>
+      <label htmlFor="ingredients">
+        {
+          detailsRecipe.filter((element) => console.log(element))
+        }
+      </label>
       <button
         data-testid="finish-recipe-btn"
         type="button"
