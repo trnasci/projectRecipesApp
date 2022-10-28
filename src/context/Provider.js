@@ -15,6 +15,8 @@ function Provider({ children }) {
   const [listMeals, setListMeals] = useState([]);
   const [listDrinks, setListDrinks] = useState([]);
   const [detailsRecipe, setDetailsRecipe] = useState([]);
+  const [ingredient, setIngredient] = useState([]);
+  const [measure, setMeasure] = useState([]);
   const history = useHistory();
   const location = useLocation();
   const { pathname } = location;
@@ -138,6 +140,10 @@ function Provider({ children }) {
     listMeals,
     detailsRecipe,
     setDetailsRecipe,
+    setIngredient,
+    setMeasure,
+    ingredient,
+    measure,
     fetchAPI,
     setListMeals,
     setListDrinks,
@@ -157,6 +163,10 @@ function Provider({ children }) {
     listMeals,
     detailsRecipe,
     setDetailsRecipe,
+    setIngredient,
+    setMeasure,
+    ingredient,
+    measure,
     fetchAPI,
     setSearchInput,
   ]);
