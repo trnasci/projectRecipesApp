@@ -3,15 +3,14 @@ import { Switch, Route } from 'react-router-dom';
 import Login from './components/Login';
 import Meals from './components/Meals';
 
-import MealsProgress from './components/MealsProgress';
+// import MealsProgress from './components/MealsProgress';
 import Drinks from './components/Drinks';
-import DrinksProgress from './components/DrinksProgress';
+// import DrinksProgress from './components/DrinksProgress';
 import Profile from './components/Profile';
 import DoneRecipes from './components/DoneRecipes';
 import Favorites from './components/Favorites';
 import RecipeDetails from './components/RecipeDetails';
 import RecipeInProgress from './components/RecipeInProgress';
-
 
 function App() {
   return (

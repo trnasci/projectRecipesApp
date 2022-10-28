@@ -20,18 +20,6 @@ function Provider({ children }) {
   const history = useHistory();
   const location = useLocation();
   const { pathname } = location;
-  /* const listOneFood = useCallback(() => {
-    if (listAPI.length === 1) {
-      if (pathname === '/drinks') {
-        history.push(`/drinks/${listAPI[0].idDrink}`);
-      } else {
-        history.push(`/meals/${listAPI[0].idMeal}`);
-      }
-    }
-  }, [history, listAPI, pathname]); */
-  const history = useHistory();
-  const location = useLocation();
-  const { pathname } = location;
 
   useEffect(() => {
     if (listDrinks.length === 1 && radioInput !== 'Category') {
