@@ -15,10 +15,11 @@ function Provider({ children }) {
   const [listMeals, setListMeals] = useState([]);
   const [listDrinks, setListDrinks] = useState([]);
   const [detailsRecipe, setDetailsRecipe] = useState([]);
+  const [ingredient, setIngredient] = useState([]);
+  const [measure, setMeasure] = useState([]);
   const history = useHistory();
   const location = useLocation();
   const { pathname } = location;
-
   /* const listOneFood = useCallback(() => {
     if (listAPI.length === 1) {
       if (pathname === '/drinks') {
@@ -142,6 +143,10 @@ function Provider({ children }) {
     listMeals,
     detailsRecipe,
     setDetailsRecipe,
+    setIngredient,
+    setMeasure,
+    ingredient,
+    measure,
   }), [
     email,
     password,
@@ -158,6 +163,10 @@ function Provider({ children }) {
     listMeals,
     detailsRecipe,
     setDetailsRecipe,
+    setIngredient,
+    setMeasure,
+    ingredient,
+    measure,
   ]);
 
   return (
