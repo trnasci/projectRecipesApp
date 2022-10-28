@@ -105,7 +105,7 @@ export default function RecipeDetails({ match: { params: { id } } }) {
           history.location.pathname === `/meals/${id}`
           && (
             <iframe
-              src={detailsRecipe.strYoutube}
+              src={ detailsRecipe.strYoutube }
               title="strYoutube"
               data-testid="video"
             >
