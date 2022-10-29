@@ -18,6 +18,8 @@ function Provider({ children }) {
   const [ingredient, setIngredient] = useState([]);
   const [measure, setMeasure] = useState([]);
   const [recomendations, setRecomendations] = useState([]);
+  const [copyBtn, setCopyBtn] = useState(false);
+  const [favorite, setFavorite] = useState(false);
   const history = useHistory();
   const location = useLocation();
   const { pathname } = location;
@@ -150,6 +152,10 @@ function Provider({ children }) {
     setListDrinks,
     recomendations,
     setRecomendations,
+    copyBtn,
+    setCopyBtn,
+    favorite,
+    setFavorite,
   }), [
     email,
     password,
@@ -174,6 +180,10 @@ function Provider({ children }) {
     setSearchInput,
     recomendations,
     setRecomendations,
+    copyBtn,
+    setCopyBtn,
+    favorite,
+    setFavorite,
   ]);
 
   return (
