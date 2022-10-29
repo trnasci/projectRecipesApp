@@ -3,22 +3,18 @@ import { useHistory } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Context from '../context/Context';
 import Recomendations from './Recomendations';
+import Buttons from './Buttons';
+
+// const copy = require('clipboard-copy');
 
 export default function RecipeDetails({ match: { params: { id } } }) {
   const history = useHistory();
+  const { location: { pathname } } = history;
   const {
-    detailsRecipe,
-    setDetailsRecipe,
-    setIngredient,
-    setMeasure,
-    ingredient,
-    measure,
-    // recomendations,
-    setRecomendations,
-  } = useContext(Context);
+    detailsRecipe, setDetailsRecipe, setIngredient, setMeasure, ingredient, measure,
+    setRecomendations, copyBtn, favorite, setFavorite } = useContext(Context);
 
   const fetchAPI = async () => {
-    // const idMeals = 52772;
     let endPoint = `https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`;
     if (history.location.pathname === `/drinks/${id}`) {
       endPoint = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
@@ -31,20 +27,14 @@ export default function RecipeDetails({ match: { params: { id } } }) {
     } else {
       recipe = response.meals;
     }
-
     const detailsRecipeVerify = history.location.pathname === `/meals/${id}`
       ? response.meals[0] : response.drinks[0];
-
     setDetailsRecipe(detailsRecipeVerify);
     const filterIngredient = Object.entries(recipe[0]);
-
     const paoDeQueijo = filterIngredient
       .filter(([key, value]) => (key.includes('strIngredient') && value));
-    console.log('ingredients --->', paoDeQueijo);
-
     const pequi = filterIngredient
       .filter(([key, value]) => (key.includes('strMeasure') && value));
-    console.log('Measure --->', pequi);
     setIngredient(paoDeQueijo);
     setMeasure(pequi);
   };
@@ -54,7 +44,6 @@ export default function RecipeDetails({ match: { params: { id } } }) {
     if (history.location.pathname === `/drinks/${id}`) {
       endPoint = 'https://www.themealdb.com/api/json/v1/1/search.php?s=';
     }
-
     const request = await fetch(endPoint);
     const response = await request.json();
     const products = history.location.pathname === `/meals/${id}`
@@ -63,11 +52,67 @@ export default function RecipeDetails({ match: { params: { id } } }) {
     setRecomendations(products);
   };
 
+  const verifyFavorite = () => {
+    const favoriteStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (favoriteStorage) {
+      setFavorite(favoriteStorage.some((e) => e.id === id));
+    }
+  };
+
   useEffect(() => {
     fetchAPI();
     fetchRecomendations();
+    verifyFavorite();
   }, []);
-  // console.log(detailsRecipe.strYoutube);
+
+  const handleClickLocalStorage = () => {
+    const objLocalStorage = {
+      drinks: {},
+      meals: {},
+    };
+    const itemProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (itemProgress === null) {
+      if (history.location.pathname === `/meals/${id}/in-progress`) {
+        objLocalStorage.meals[id] = [];
+        localStorage.setItem('inProgressRecipes', JSON.stringify(objLocalStorage));
+      }
+      if (history.location.pathname === `/drinks/${id}/in-progress`) {
+        objLocalStorage.drinks[id] = [];
+        localStorage.setItem('inProgressRecipes', JSON.stringify(objLocalStorage));
+      }
+    }
+    if (history.location.pathname === `/meals/${id}/in-progress`) {
+      itemProgress.meals = {
+        ...itemProgress.meals,
+        [id]: [],
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(itemProgress));
+    }
+    if (history.location.pathname === `/drinks/${id}/in-progress`) {
+      itemProgress.drinks = {
+        ...itemProgress.drinks, [id]: [],
+      };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(itemProgress));
+    }
+    if (history.location.pathname === `/meals/${id}`) {
+      history.push(`/meals/${id}/in-progress`);
+    } else {
+      history.push(`/drinks/${id}/in-progress`);
+    }
+  };
+
+  const verifyButton = () => {
+    const verifyId = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    let idKeys = [];
+    if (verifyId && history.location.pathname === `/meals/${id}`) {
+      idKeys = Object.keys(verifyId.meals);
+    }
+    if (verifyId && history.location.pathname === `/drinks/${id}`) {
+      idKeys = Object.keys(verifyId.drinks);
+    }
+    return idKeys.some((i) => i === id);
+  };
+
   return (
     <div>
       <div>
@@ -114,13 +159,11 @@ export default function RecipeDetails({ match: { params: { id } } }) {
             ))
           }
         </ul>
-
         <h4
           data-testid="instructions"
         >
           {detailsRecipe.strInstructions}
         </h4>
-
         {
           history.location.pathname === `/meals/${id}`
           && (
@@ -133,8 +176,36 @@ export default function RecipeDetails({ match: { params: { id } } }) {
             </iframe>
           )
         }
+        {
+          copyBtn && <div>Link copied!</div>
+        }
         <Recomendations />
-
+        <div className="start-recipe-btn">
+          { verifyButton() ? (
+            <button
+              className="btn-fixed"
+              type="button"
+              data-testid="start-recipe-btn"
+              onClick={ handleClickLocalStorage }
+            >
+              Continue Recipe
+            </button>
+          ) : (
+            <button
+              className="btn-fixed"
+              type="button"
+              data-testid="start-recipe-btn"
+              onClick={ handleClickLocalStorage }
+            >
+              Start Recipe
+            </button>
+          )}
+          <Buttons
+            obj={ {
+              id, pathname, favorite, setFavorite, detailsRecipe,
+            } }
+          />
+        </div>
       </div>
     </div>
   );

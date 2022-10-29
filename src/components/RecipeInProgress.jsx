@@ -1,14 +1,9 @@
 import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
-// import { useMatch } from '@reach/router';
 import PropTypes from 'prop-types';
 import Context from '../context/Context';
 
 function RecipeInProgress({ match }) {
-// history.location.pathname
-// props.match.params (id)
-// useParams useHistory (react-router-dom)
-// useEffect(() => {}, []) - detail
   const history = useHistory();
   const { params: { id } } = match;
   const {
@@ -22,15 +17,19 @@ function RecipeInProgress({ match }) {
       endPoint = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
     }
     const request = await fetch(endPoint);
+    console.log('request', request);
     const response = await request.json();
-    setDetailsRecipe(
-      history.location.pathname === `/meals/${id}/in-progress`
-        ? response.meals[0]
-        : response.drinks[0],
-    );
     console.log('response --->', response);
+    const redirect = history.location.pathname === `/meals/${id}/in-progress`
+      ? response.meals[0]
+      : response.drinks[0];
+    setDetailsRecipe(redirect);
   };
-  useEffect(() => { fetchAPI(); }, []);
+
+  useEffect(() => {
+    fetchAPI();
+  }, []);
+
   return (
     <div>
       <img
@@ -80,11 +79,11 @@ function RecipeInProgress({ match }) {
       >
         { detailsRecipe.strInstructions }
       </h4>
-      <label htmlFor="ingredients">
+      {/* <label htmlFor="ingredients">
         {
           detailsRecipe.filter((element) => console.log(element))
         }
-      </label>
+      </label> */}
       <button
         data-testid="finish-recipe-btn"
         type="button"

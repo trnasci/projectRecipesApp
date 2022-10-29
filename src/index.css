@@ -16,3 +16,19 @@ code {
   display: flex;
   overflow-x: scroll;
 }
+
+.start-recipe-btn {
+  display: flex;
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  gap: 200px;
+  justify-content: center;
+}
+
+.btn-fixed {
+  position: fixed;
+  bottom: 0;
+  justify-content: center;
+  z-index: 999;
+}

@@ -1,5 +1,4 @@
 import React, { useContext } from 'react';
-// import { Carousel } from 'react-bootstrap';
 import Context from '../context/Context';
 
 function Recomendations() {
