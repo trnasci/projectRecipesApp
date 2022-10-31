@@ -17,19 +17,15 @@ function RecipeInProgress({ match }) {
       endPoint = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
     }
     const request = await fetch(endPoint);
-    console.log('request', request);
     const response = await request.json();
+    setDetailsRecipe(
+      history.location.pathname === `/meals/${id}/in-progress`
+        ? response.meals[0]
+        : response.drinks[0],
+    );
     console.log('response --->', response);
-    const redirect = history.location.pathname === `/meals/${id}/in-progress`
-      ? response.meals[0]
-      : response.drinks[0];
-    setDetailsRecipe(redirect);
   };
-
-  useEffect(() => {
-    fetchAPI();
-  }, []);
-
+  useEffect(() => { fetchAPI(); }, []);
   return (
     <div>
       <img
@@ -79,11 +75,6 @@ function RecipeInProgress({ match }) {
       >
         { detailsRecipe.strInstructions }
       </h4>
-      {/* <label htmlFor="ingredients">
-        {
-          detailsRecipe.filter((element) => console.log(element))
-        }
-      </label> */}
       <button
         data-testid="finish-recipe-btn"
         type="button"
