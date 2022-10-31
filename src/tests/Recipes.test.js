@@ -64,9 +64,7 @@ describe('Testa componente Recipes', () => {
       </Provider>,
       ['/drinks'],
     );
-    const searchButton = await screen.findByTestId(SEARCH_BTN);
-    await waitFor(() => expect(searchButton).toBeDefined());
-    userEvent.click(searchButton);
+
     const OrdinaryDrinkButton = await screen.findByTestId('Ordinary Drink-category-filter');
     userEvent.click(OrdinaryDrinkButton);
     const drinkOrdinary = await screen.findByTestId('0-recipe-card');
@@ -84,9 +82,6 @@ describe('Testa componente Recipes', () => {
       </Provider>,
       ['/meals'],
     );
-    const searchButton = await screen.findByTestId(SEARCH_BTN);
-    await waitFor(() => expect(searchButton).toBeDefined());
-    userEvent.click(searchButton);
     const beefButton = await screen.findByTestId('Beef-category-filter');
     expect(beefButton).toBeInTheDocument();
     userEvent.click(beefButton);
