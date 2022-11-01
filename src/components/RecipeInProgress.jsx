@@ -40,9 +40,7 @@ function RecipeInProgress({ match }) {
       endPoint = `https://www.thecocktaildb.com/api/json/v1/1/lookup.php?i=${id}`;
     }
     const request = await fetch(endPoint);
-    console.log('request', request);
     const response = await request.json();
-    // console.log('response --->', response);
     const redirect = history.location.pathname === `/meals/${id}/in-progress`
       ? response.meals[0]
       : response.drinks[0];
@@ -93,6 +91,14 @@ function RecipeInProgress({ match }) {
     verifyChecked();
     verifyFavorite();
   }, []);
+
+    setDetailsRecipe(
+      history.location.pathname === `/meals/${id}/in-progress`
+        ? response.meals[0]
+        : response.drinks[0],
+    );
+  };
+  useEffect(() => { fetchAPI(); }, []);
 
   return (
     <div>
@@ -193,6 +199,12 @@ function RecipeInProgress({ match }) {
           Finalizar
         </button>
       </div>
+      <button
+        data-testid="finish-recipe-btn"
+        type="button"
+      >
+        Finalizar
+      </button>
     </div>
   );
 }
