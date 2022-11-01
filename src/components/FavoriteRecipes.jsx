@@ -1,10 +1,10 @@
 import React from 'react';
 import FavoriteAndDoneCard from './FavoriteAndDoneCard';
 
-function DoneRecipes() {
+function FavoritesRecipes() {
   return (
     <FavoriteAndDoneCard />
   );
 }
 
-export default DoneRecipes;
+export default FavoritesRecipes;
