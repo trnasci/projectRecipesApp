@@ -10,6 +10,9 @@ function SetInProgress({ target }, pathname, id, ingredient) {
       inProgress = { meals: {}, drinks: { [id]: [] } };
     }
   }
+  if (inProgress && !inProgress.drinks) {
+    inProgress.drinks[id] = [];
+  }
   if (pathname === `/meals/${id}/in-progress`) {
     if (inProgress.meals[id]?.some((el) => el === ingredient)) {
       const filterProgress = inProgress.meals[id].filter((it) => it !== ingredient);
@@ -21,11 +24,12 @@ function SetInProgress({ target }, pathname, id, ingredient) {
   }
 
   if (pathname === `/drinks/${id}/in-progress`) {
-    if (inProgress.drinks[id].some((el) => el === ingredient)) {
+    if (inProgress.drinks[id]?.some((el) => el === ingredient)) {
       const filterProgress = inProgress.drinks[id].filter((it) => it !== ingredient);
       inProgress.drinks[id] = filterProgress;
       return localStorage.setItem('inProgressRecipes', JSON.stringify(inProgress));
     }
+    console.log(inProgress);
     inProgress.drinks[id] = [...inProgress.drinks[id], ingredient];
     localStorage.setItem('inProgressRecipes', JSON.stringify(inProgress));
   }
