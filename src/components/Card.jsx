@@ -22,7 +22,7 @@ function Card() {
       { title === 'Meals'
         ? listMeals.map((element, index) => (
           <button
-            key={ index }
+            key={ element.idMeal }
             data-testid={ `${index}-recipe-card` }
             type="button"
             onClick={ () => handleCardClickMeal(element.idMeal) }
@@ -41,7 +41,7 @@ function Card() {
           </button>
         )) : listDrinks.map((element, index) => (
           <button
-            key={ index }
+            key={ element.idDrink }
             data-testid={ `${index}-recipe-card` }
             type="button"
             onClick={ () => handleCardClickDrink(element.idDrink) }

@@ -154,7 +154,9 @@ export default function RecipeDetails({ match: { params: { id } } }) {
                 key={ index }
                 data-testid={ `${index}-ingredient-name-and-measure` }
               >
-                {`${e[1]}: ${measure[index][1]}`}
+                { measure.length > 1
+                  ? `${e[1]}: ${measure[index][1]}`
+                  : `${e[1]}: ${measure[0][1]}` }
               </li>
             ))
           }
