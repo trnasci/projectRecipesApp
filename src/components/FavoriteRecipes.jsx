@@ -2,7 +2,7 @@ import React from 'react';
 import FavoriteAndDoneCard from './FavoriteAndDoneCard';
 import Header from './Header';
 
-function DoneRecipes() {
+function FavoritesRecipes() {
   return (
     <div>
       <Header />
@@ -11,4 +11,4 @@ function DoneRecipes() {
   );
 }
 
-export default DoneRecipes;
+export default FavoritesRecipes;
