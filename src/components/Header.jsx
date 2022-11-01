@@ -41,7 +41,7 @@ function Header() {
   };
 
   return (
-    <div>
+    <header>
       {/* <Link to="/profile"> */}
       <button type="button" onClick={ handleProfileClick }>
         <img
@@ -71,7 +71,7 @@ function Header() {
         )
       }
       <h1 data-testid="page-title">{title}</h1>
-    </div>
+    </header>
   );
 }
 

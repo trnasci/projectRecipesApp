@@ -1,9 +1,13 @@
 import React from 'react';
 import FavoriteAndDoneCard from './FavoriteAndDoneCard';
+import Header from './Header';
 
 function DoneRecipes() {
   return (
-    <FavoriteAndDoneCard />
+    <div>
+      <Header />
+      <FavoriteAndDoneCard />
+    </div>
   );
 }
 
