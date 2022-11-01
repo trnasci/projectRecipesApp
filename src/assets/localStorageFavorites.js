@@ -1,4 +1,5 @@
 function localStorageFavorite({ obj }) {
+  console.log(obj);
   const { id, pathname, favorite, setFavorite, detailsRecipe } = obj;
   const favoriteStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
   const objFavorite = [{

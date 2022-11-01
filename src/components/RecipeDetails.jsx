@@ -59,12 +59,6 @@ export default function RecipeDetails({ match: { params: { id } } }) {
     }
   };
 
-  useEffect(() => {
-    fetchAPI();
-    fetchRecomendations();
-    verifyFavorite();
-  }, []);
-
   const handleClickLocalStorage = () => {
     const objLocalStorage = {
       drinks: {},
@@ -72,23 +66,23 @@ export default function RecipeDetails({ match: { params: { id } } }) {
     };
     const itemProgress = JSON.parse(localStorage.getItem('inProgressRecipes'));
     if (itemProgress === null) {
-      if (history.location.pathname === `/meals/${id}/in-progress`) {
+      if (history.location.pathname === `/meals/${id}`) {
         objLocalStorage.meals[id] = [];
         localStorage.setItem('inProgressRecipes', JSON.stringify(objLocalStorage));
       }
-      if (history.location.pathname === `/drinks/${id}/in-progress`) {
+      if (history.location.pathname === `/drinks/${id}`) {
         objLocalStorage.drinks[id] = [];
         localStorage.setItem('inProgressRecipes', JSON.stringify(objLocalStorage));
       }
     }
-    if (history.location.pathname === `/meals/${id}/in-progress`) {
+    if (history.location.pathname === `/meals/${id}`) {
       itemProgress.meals = {
         ...itemProgress.meals,
         [id]: [],
       };
       localStorage.setItem('inProgressRecipes', JSON.stringify(itemProgress));
     }
-    if (history.location.pathname === `/drinks/${id}/in-progress`) {
+    if (history.location.pathname === `/drinks/${id}`) {
       itemProgress.drinks = {
         ...itemProgress.drinks, [id]: [],
       };
@@ -112,6 +106,12 @@ export default function RecipeDetails({ match: { params: { id } } }) {
     }
     return idKeys.some((i) => i === id);
   };
+
+  useEffect(() => {
+    fetchAPI();
+    fetchRecomendations();
+    verifyFavorite();
+  }, []);
 
   return (
     <div>
@@ -149,7 +149,7 @@ export default function RecipeDetails({ match: { params: { id } } }) {
         </h4>
         <ul>
           {
-            ingredient.map((e, index) => (
+            ingredient?.map((e, index) => (
               <li
                 key={ index }
                 data-testid={ `${index}-ingredient-name-and-measure` }

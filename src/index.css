@@ -22,7 +22,7 @@ code {
   position: fixed;
   bottom: 0;
   width: 100%;
-  gap: 200px;
+  gap: 210px;
   justify-content: center;
 }
 
@@ -30,5 +30,14 @@ code {
   position: fixed;
   bottom: 0;
   justify-content: center;
+  z-index: 998;
+}
+
+.checked {
+  text-decoration: line-through solid rgb(0, 0, 0)
+}
+
+.inputs {
+  margin-bottom: 10px;
   z-index: 999;
 }
