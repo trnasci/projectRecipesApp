@@ -35,11 +35,13 @@ function Buttons(obj) {
         { favorite
           ? (
             <img
+              // data-testid="favorite-btn"
               src={ blackHeart }
               alt="blackHeart"
             />)
           : (
             <img
+              // data-testid="favorite-btn"
               src={ whiteHeart }
               alt="whiteHeart"
             />
