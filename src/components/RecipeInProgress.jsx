@@ -92,13 +92,12 @@ function RecipeInProgress({ match }) {
     verifyFavorite();
   }, []);
 
-    setDetailsRecipe(
-      history.location.pathname === `/meals/${id}/in-progress`
-        ? response.meals[0]
-        : response.drinks[0],
-    );
-  };
-  useEffect(() => { fetchAPI(); }, []);
+  // setDetailsRecipe(
+  //   history.location.pathname === `/meals/${id}/in-progress`
+  //     ? response.meals[0]
+  //     : response.drinks[0],
+  // );
+  // useEffect(() => { fetchAPI(); }, []);
 
   return (
     <div>
@@ -199,12 +198,6 @@ function RecipeInProgress({ match }) {
           Finalizar
         </button>
       </div>
-      <button
-        data-testid="finish-recipe-btn"
-        type="button"
-      >
-        Finalizar
-      </button>
     </div>
   );
 }
