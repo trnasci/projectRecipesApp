@@ -1,6 +1,7 @@
 import React, { useEffect, useCallback, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
+import blackHeartIcon from '../images/blackHeartIcon.svg';
 
 function FavoriteAndDoneCard() {
   const history = useHistory();
@@ -94,7 +95,14 @@ function FavoriteAndDoneCard() {
               src={ element.image }
               alt={ element.name }
             />
-            <p data-testid={ `${index}-horizontal-top-text` }>{ element.category }</p>
+            <p
+              data-testid={ `${index}-horizontal-top-text` }
+            >
+              { `${element.nationality} -
+               ${element.category} - 
+               ${element.alcoholicOrNot} ` }
+
+            </p>
             <p data-testid={ `${index}-horizontal-name` }>{ element.name }</p>
             <button
               type="button"
@@ -107,9 +115,12 @@ function FavoriteAndDoneCard() {
             </button>
             <button
               type="button"
-              data-testid={ `${index}-horizontal-favorite-btn` }
             >
-              Favoritar
+              <img
+                data-testid={ `${index}-horizontal-favorite-btn` }
+                src={ blackHeartIcon }
+                alt="favorite-btn"
+              />
             </button>
           </div>
         ))}
