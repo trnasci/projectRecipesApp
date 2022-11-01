@@ -75,7 +75,7 @@ describe('Testa componente Profile', () => {
     userEvent.click(logoutBtn);
     waitFor(() => expect(pathname).toBe('/'));
   });
-  it('', () => {
+  it('Testa funcionamento do LocalStorage', () => {
     localStorage.setItem('user', JSON.stringify({ email: 'email@test.com' }));
     renderWithRouter(
       <Provider>
